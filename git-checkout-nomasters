@@ -1,0 +1,33 @@
+#!/usr/bin/ruby
+
+def pass
+  system("/usr/local/bin/git", "checkout", ARGV.join(' '))
+end
+
+def say_no
+  phrase = ["it's called main", "nope"].sample
+  job1 = fork do
+    exec "/usr/bin/say", phrase
+  end
+  Process.detach(job1)
+end
+
+def bail
+  say_no
+  msg = ["*"*80, "STOP TRYING TO USE MASTER, USE MAIN", "*"*80]
+    .join("\n")
+  abort msg
+end
+
+def main
+  branch_name = ARGV.last
+  dir_name = ENV["PWD"]
+
+  if dir_name.include?('code/golang') && branch_name == 'master'
+    bail
+  end
+
+  pass
+end
+
+main
