@@ -1,7 +1,9 @@
 #!/usr/bin/ruby
 
 def pass
-  system("/usr/local/bin/git", "checkout", ARGV.join(' '))
+  args = ["checkout"]+ARGV.to_a
+
+  system("/usr/local/bin/git", *args)
 end
 
 def say_no
